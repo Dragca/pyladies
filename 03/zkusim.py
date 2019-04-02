@@ -1,0 +1,30 @@
+from turtle import forward, right, left, penup, pendown, exitonclick
+from math import sqrt
+
+penup()
+forward(-400)
+pendown()
+for _ in range(10):
+    forward(50)
+    left(90)
+    forward(50)
+    left(135)
+    forward(sqrt(2)*50)
+    right(135)
+    forward(50)
+    right(90)
+    forward(50)
+    right(90)
+    forward(50)
+    right(135)
+    forward(sqrt(2)*50)
+    right(90)
+    forward(sqrt(2)*25)
+    right(90)
+    forward(sqrt(2)*25)
+    right(45)
+    forward(50)
+    left(90)
+    forward(30)
+
+exitonclick()
