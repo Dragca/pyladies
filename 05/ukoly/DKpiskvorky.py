@@ -54,7 +54,7 @@ def tah_hrace(herni_pole, symbol_hrace):
     """
     
     while True:
-        pozice_string = input('Zadej ciselnou pozici tveho tahu (0-19) ')
+        pozice_string = input('Zadej ciselnou pozici tveho tahu (0-{}) '.format(len(herni_pole) - 1))
         if not pozice_string.isdecimal():  # overeni, ze zadane cislo pozice je cislice
             print('Nezadal jsi cislici.')
             continue
@@ -62,8 +62,8 @@ def tah_hrace(herni_pole, symbol_hrace):
         pozice = int(pozice_string)
         if pozice < 0:
             print('Zadej kladne cislo')
-        elif pozice > 19:
-            print('Hrajes mimo herni pole, to ma jenom 20 pozic!')
+        elif pozice > len(herni_pole) - 1:
+            print('Hrajes mimo herni pole, to ma jenom {} pozic!'.format(len(herni_pole)))
         elif herni_pole[pozice] != '-':
             print('Hrajes na obsazene policko, ')
         else:
@@ -78,7 +78,7 @@ def tah_pocitace(herni_pole, symbol_pocitace):
     Vrati herni pole se zaznamenanym tahem pocitace.
     """
     while True:
-        pozice = randrange(20)
+        pozice = randrange(len(herni_pole))
         if herni_pole[pozice] == '-':
             break
     
