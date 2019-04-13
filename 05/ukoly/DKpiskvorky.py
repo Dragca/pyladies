@@ -96,15 +96,15 @@ def tah_pocitace(herni_pole, symbol_pocitace, symbol_hrace):
     elif 2 * symbol_hrace + '-' in herni_pole:
         pozice = herni_pole.find(2 * symbol_hrace + '-') + 2
 
-    # kdyz jsou kolem symbolu_hrace volne pozice, tah hrace na volnou pozici
+    # kdyz jsou kolem symbolu_hrace volne pozice, tah hrace na volnou pozici vlevo
     elif '-' + symbol_hrace + '-' in herni_pole:
         pozice = herni_pole.find('-' + symbol_hrace + '-')
     
-    # kdyz /-/symbol_pocitace/-/, nebo /-/-/symbol_PC nebo  symbol_PC/-/-/ hrsat na volen policko
+    # kdyz /-/symbol_pocitace/-/, nebo /-/-/symbol_PC nebo  symbol_PC/-/-/ hrat na volen policko
     elif '-' + symbol_pocitace + '-' in herni_pole:
         pozice = herni_pole.find('-' + symbol_pocitace + '-')
     elif '--' + symbol_pocitace in herni_pole:
-        pozice = herni_pole.find('--' + symbol_pocitace) + 1
+        pozice = herni_pole.find('--' + symbol_pocitace)   # +1
     elif symbol_pocitace + '--' in herni_pole:
         pozice = herni_pole.find(symbol_pocitace + '--') + 1
         
