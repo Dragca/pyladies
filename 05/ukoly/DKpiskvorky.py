@@ -48,7 +48,7 @@ def tah(herni_pole, cislo_policka, symbol):
 
 def tah_hrace(herni_pole, symbol_pocitace, symbol_hrace):
     """
-    Funkce dostane retezec s hernim polem, symbol hrace, zepta se hrace, na kterou pozici chce hrat.
+    Funkce dostane retezec s hernim polem, symbol, pocitace, symbol hrace, zepta se hrace, na kterou pozici chce hrat.
     Funkce odmitne zaporna a prilis velka cisla(mimo rozsah pole) a tah na obsazena policka.
     Vrati herni pole se zaznamenanym tahem hrace.
     """
@@ -74,42 +74,29 @@ def tah_hrace(herni_pole, symbol_pocitace, symbol_hrace):
 
 def tah_pocitace(herni_pole, symbol_pocitace, symbol_hrace):
     """
-    Funkce dostane retezec s hernim polem, symbol pocitace, vybere pozici, na kterou hrat.
+    Funkce dostane retezec s hernim polem, symbol pocitace, symbol hrace, vybere pozici, na kterou hrat.
     Vrati herni pole se zaznamenanym tahem pocitace.
     """
+    strategie = [
+        # když jsou vedle sebe 2 * symbol_pocitace a vedle nich volno, nebo volno mezi nimi- tah pocitace na toto volne policko
+        ('-' + 2 * symbol_pocitace), (2 * symbol_pocitace + '-'), (symbol_pocitace + '-' + symbol_pocitace),
+        # když symbol_hrace/-/symbol_hrace, tah PC na pole uprostřed
+        (symbol_hrace + '-' + symbol_hrace),
+        # když je volne policko pred nebo za 2 * symbol_hrace, tah PC vedle nich na toto volne misto
+        ('-' + 2 * symbol_hrace), (2 * symbol_hrace + '-'),
+        # kdyz jsou kolem symbolu_hrace volne pozice, tah hrace na volnou pozici vlevo
+        ('-' + symbol_hrace + '-'),
+        # kdyz /-/symbol_pocitace/-/, nebo /-/-/symbol_PC nebo  symbol_PC/-/-/ hrat na volen policko
+        ('-' + symbol_pocitace + '-'), ('--' + symbol_pocitace), (symbol_pocitace + '--')]
 
-    # když jsou vedle sebe 2 * symbol_pocitace a vedle nich volno, nebo volno mezi nimi- tah pocitace na toto volne policko
-    if '-' + 2 * symbol_pocitace in herni_pole:
-        pozice = herni_pole.find('-' + 2 * symbol_pocitace)
-    elif 2 * symbol_pocitace + '-' in herni_pole:
-        pozice = herni_pole.find(2 * symbol_pocitace + '-') + 2
-    elif symbol_pocitace + '-' + symbol_pocitace in herni_pole:
-        pozice =  herni_pole.find(symbol_pocitace + '-' + symbol_pocitace) + 1
-    
-    # když symbol_hrace/-/symbol_hrace, tah PC na pole uprostřed
-    elif symbol_hrace + '-' + symbol_hrace in herni_pole:
-        pozice = herni_pole.find(symbol_hrace + '-' + symbol_hrace) + 1
+    for kombinace in strategie:
+        nasel_na_pozici = herni_pole.find(kombinace)
+        if nasel_na_pozici != -1:
+            pozice = nasel_na_pozici + kombinace.find('-')
+            break
 
-    # když je volne policko pred nebo za 2 * symbol_hrace, tah PC vedle nich na toto volne misto
-    elif '-' + 2 * symbol_hrace in herni_pole:
-        pozice = herni_pole.find('-' + 2 * symbol_hrace)
-    elif 2 * symbol_hrace + '-' in herni_pole:
-        pozice = herni_pole.find(2 * symbol_hrace + '-') + 2
-
-    # kdyz jsou kolem symbolu_hrace volne pozice, tah hrace na volnou pozici vlevo
-    elif '-' + symbol_hrace + '-' in herni_pole:
-        pozice = herni_pole.find('-' + symbol_hrace + '-')
-    
-    # kdyz /-/symbol_pocitace/-/, nebo /-/-/symbol_PC nebo  symbol_PC/-/-/ hrat na volen policko
-    elif '-' + symbol_pocitace + '-' in herni_pole:
-        pozice = herni_pole.find('-' + symbol_pocitace + '-')
-    elif '--' + symbol_pocitace in herni_pole:
-        pozice = herni_pole.find('--' + symbol_pocitace)   # +1
-    elif symbol_pocitace + '--' in herni_pole:
-        pozice = herni_pole.find(symbol_pocitace + '--') + 1
-        
     # jinak nahodna pozice 
-    else:
+    if nasel_na_pozici == -1:
         while True:
             pozice = randrange(len(herni_pole))
             if herni_pole[pozice] == '-':
