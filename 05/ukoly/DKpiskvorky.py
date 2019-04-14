@@ -126,7 +126,7 @@ def piskvorky1D():
         
     kolo = 1
     while True:
-        for tahne, symbol in ((tah_hrace, symbol_hrace),(tah_pocitace, symbol_pocitace)):
+        for tahne in (tah_hrace, tah_pocitace):
             herni_pole = tahne(herni_pole, symbol_pocitace, symbol_hrace)
             print('{}. kolo: {}'.format(kolo, herni_pole))
             stav = vyhodnot(herni_pole)  # promenna, kde je ulozeno aktualni vyhodnoceni herniho pole
