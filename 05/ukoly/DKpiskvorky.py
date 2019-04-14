@@ -46,9 +46,9 @@ def tah(herni_pole, cislo_policka, symbol):
     return ''.join(pole) 
 
 
-def tah_hrace(herni_pole, symbol_hrace):
+def tah_hrace(herni_pole, symbol_pocitace, symbol_hrace):
     """
-    Funkce dostane retezec s hernim polem, symbol hrace, zepta se hrace, na kterou pozici chce hrat.
+    Funkce dostane retezec s hernim polem, symbol, pocitace, symbol hrace, zepta se hrace, na kterou pozici chce hrat.
     Funkce odmitne zaporna a prilis velka cisla(mimo rozsah pole) a tah na obsazena policka.
     Vrati herni pole se zaznamenanym tahem hrace.
     """
@@ -65,22 +65,42 @@ def tah_hrace(herni_pole, symbol_hrace):
         elif pozice > len(herni_pole) - 1:
             print('Hrajes mimo herni pole, to ma jenom {} pozic!'.format(len(herni_pole)))
         elif herni_pole[pozice] != '-':
-            print('Hrajes na obsazene policko, ')
+            print('Hrajes na obsazene policko. ')
         else:
             break
 
     return tah(herni_pole, pozice, symbol_hrace)
 
 
-def tah_pocitace(herni_pole, symbol_pocitace):
+def tah_pocitace(herni_pole, symbol_pocitace, symbol_hrace):
     """
-    Funkce dostane retezec s hernim polem, symbol pocitace, vybere pozici, na kterou hrat.
+    Funkce dostane retezec s hernim polem, symbol pocitace, symbol hrace, vybere pozici, na kterou hrat.
     Vrati herni pole se zaznamenanym tahem pocitace.
     """
-    while True:
-        pozice = randrange(len(herni_pole))
-        if herni_pole[pozice] == '-':
+    strategie = [
+        # když jsou vedle sebe 2 * symbol_pocitace a vedle nich volno, nebo volno mezi nimi- tah pocitace na toto volne policko
+        ('-' + 2 * symbol_pocitace), (2 * symbol_pocitace + '-'), (symbol_pocitace + '-' + symbol_pocitace),
+        # když symbol_hrace/-/symbol_hrace, tah PC na pole uprostřed
+        (symbol_hrace + '-' + symbol_hrace),
+        # když je volne policko pred nebo za 2 * symbol_hrace, tah PC vedle nich na toto volne misto
+        ('-' + 2 * symbol_hrace), (2 * symbol_hrace + '-'),
+        # kdyz jsou kolem symbolu_hrace volne pozice, tah hrace na volnou pozici vlevo
+        ('-' + symbol_hrace + '-'),
+        # kdyz /-/symbol_pocitace/-/, nebo /-/-/symbol_PC nebo  symbol_PC/-/-/ hrat na volen policko
+        ('-' + symbol_pocitace + '-'), ('--' + symbol_pocitace), (symbol_pocitace + '--')]
+
+    for kombinace in strategie:
+        nasel_na_pozici = herni_pole.find(kombinace)
+        if nasel_na_pozici != -1:
+            pozice = nasel_na_pozici + kombinace.find('-')
             break
+
+    # jinak nahodna pozice 
+    if nasel_na_pozici == -1:
+        while True:
+            pozice = randrange(len(herni_pole))
+            if herni_pole[pozice] == '-':
+                break
     
     return tah(herni_pole, pozice, symbol_pocitace)
 
@@ -106,8 +126,8 @@ def piskvorky1D():
         
     kolo = 1
     while True:
-        for tahne, symbol in ((tah_hrace, symbol_hrace),(tah_pocitace, symbol_pocitace)):
-            herni_pole = tahne(herni_pole, symbol)
+        for tahne in (tah_hrace, tah_pocitace):
+            herni_pole = tahne(herni_pole, symbol_pocitace, symbol_hrace)
             print('{}. kolo: {}'.format(kolo, herni_pole))
             stav = vyhodnot(herni_pole)  # promenna, kde je ulozeno aktualni vyhodnoceni herniho pole
             if not konej_podle_stavu(stav):
