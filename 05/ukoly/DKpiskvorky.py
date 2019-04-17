@@ -2,7 +2,9 @@
 
 from random import randrange
 
-HLASKA_UVOD = 'Pojd si zahrat 1D piskvorky! Hrajeme na radku s dvaceti policky. '
+
+DELKA_HERNIHO_POLE = 20
+HLASKA_UVOD = 'Pojd si zahrat 1D piskvorky! Hrajeme na radku s {} policky. '.format(DELKA_HERNIHO_POLE)
 KDO_VYHRAL = {
     'x': 'Vyhral hrac se znakem x.',
     'o': 'Vyhral hrac se znakem o.',
@@ -66,11 +68,11 @@ def tah_pocitace(herni_pole, symbol_pocitace, symbol_hrace):
     Vrati herni pole se zaznamenanym tahem pocitace.
     """
     strategie = [
-        # když jsou vedle sebe 2 * symbol_pocitace a vedle nich volno, nebo volno mezi nimi- tah pocitace na toto volne policko
+        # kdyz jsou vedle sebe 2 * symbol_pocitace a vedle nich volno, nebo volno mezi nimi- tah pocitace na toto volne policko
         ('-' + 2 * symbol_pocitace), (2 * symbol_pocitace + '-'), (symbol_pocitace + '-' + symbol_pocitace),
-        # když symbol_hrace/-/symbol_hrace, tah PC na pole uprostřed
+        # kdyz symbol_hrace/-/symbol_hrace, tah PC na pole uprostred
         (symbol_hrace + '-' + symbol_hrace),
-        # když je volne policko pred nebo za 2 * symbol_hrace, tah PC vedle nich na toto volne misto
+        # kdyz je volne policko pred nebo za 2 * symbol_hrace, tah PC vedle nich na toto volne misto
         ('-' + 2 * symbol_hrace), (2 * symbol_hrace + '-'),
         # kdyz jsou kolem symbolu_hrace volne pozice, tah hrace na volnou pozici vlevo
         ('-' + symbol_hrace + '-'),
@@ -109,7 +111,7 @@ def piskvorky1D():
     else:
         symbol_pocitace = 'x'
 
-    herni_pole = 20 * '-'
+    herni_pole = DELKA_HERNIHO_POLE * '-'
     print(herni_pole)
         
     kolo = 1
