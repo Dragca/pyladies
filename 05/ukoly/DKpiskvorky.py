@@ -3,6 +3,11 @@
 from random import randrange
 
 HLASKA_UVOD = 'Pojd si zahrat 1D piskvorky! Hrajeme na radku s dvaceti policky. '
+KDO_VYHRAL = {
+    'x': 'Vyhral hrac se znakem x.',
+    'o': 'Vyhral hrac se znakem o.',
+    '!': 'Remiza!'}
+
 
 def vyhodnot(herni_pole):
     """
@@ -18,23 +23,6 @@ def vyhodnot(herni_pole):
     else:
         return '-'  # hra jeste neskoncila
 
-def konej_podle_stavu(stav_herniho_pole):
-    """
-    Funkce dostane jednoradkovy retezec o aktualnim stavu herniho pole.
-    Podle podminek vytiskne hlasku.
-    Vraci False pokud hra konci, jinak True
-    """
-    if stav_herniho_pole == 'x':
-        print('Vyhral hrac se znakem x')
-        return False 
-    elif stav_herniho_pole == 'o':
-        print('Vyhral hrac se znakem o')
-        return False 
-    elif stav_herniho_pole == '!':
-        print('Remiza!')
-        return False
-    else:
-        return True
 
 def tah(herni_pole, cislo_policka, symbol):
     """
@@ -130,7 +118,8 @@ def piskvorky1D():
             herni_pole = tahne(herni_pole, symbol_pocitace, symbol_hrace)
             print('{}. kolo: {}'.format(kolo, herni_pole))
             stav = vyhodnot(herni_pole)  # promenna, kde je ulozeno aktualni vyhodnoceni herniho pole
-            if not konej_podle_stavu(stav):
+            if stav in KDO_VYHRAL:
+                print(KDO_VYHRAL[stav])
                 return
             kolo += 1
 
