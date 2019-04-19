@@ -34,12 +34,12 @@ def tah_hrace(herni_pole, symbol_pocitace, symbol_hrace):
     """
     
     while True:
-        pozice_string = input('Zadej ciselnou pozici tveho tahu (0-{}) '.format(len(herni_pole) - 1))
-        if not pozice_string.isdecimal():  # overeni, ze zadane cislo pozice je cislice
+        try:
+            pozice = int(input('Zadej ciselnou pozici tveho tahu (0-{}) '.format(len(herni_pole) - 1)))
+        except ValueError:
             print('Nezadal jsi cislici.')
             continue
 
-        pozice = int(pozice_string)
         if pozice < 0:
             print('Zadej kladne cislo')
         elif pozice > len(herni_pole) - 1:
@@ -50,7 +50,6 @@ def tah_hrace(herni_pole, symbol_pocitace, symbol_hrace):
             break
 
     return tah(herni_pole, pozice, symbol_hrace)
-
 
 
 def piskvorky1D():
