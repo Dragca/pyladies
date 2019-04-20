@@ -1,3 +1,5 @@
+import pytest
+
 import ai
 
 
@@ -43,3 +45,13 @@ def test_tah_s_jinou_delkou_pole():
     assert len(pole) == 30
     assert pole.count('x') == 3
     assert pole.count('o') == 2
+
+
+def test_prazdne_hraci_pole():
+    with pytest.raises(ValueError):
+        ai.tah_pocitace('', 'x', 'o')
+
+def test_plne_hraci_pole():
+    with pytest.raises(ValueError):
+        ai.tah_pocitace('oxxooxoxoxxoox', 'x', 'o')
+        

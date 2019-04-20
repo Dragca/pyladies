@@ -6,6 +6,9 @@ def tah_pocitace(herni_pole, symbol_pocitace, symbol_hrace):
     Funkce dostane retezec s hernim polem, symbol pocitace, symbol hrace, vybere pozici, na kterou hrat.
     Vrati herni pole se zaznamenanym tahem pocitace.
     """
+    if '-' not in herni_pole:
+        raise ValueError('herni pole je plne')
+
     strategie = [
         # kdyz jsou vedle sebe 2 * symbol_pocitace a vedle nich volno, nebo volno mezi nimi- tah pocitace na toto volne policko
         ('-' + 2 * symbol_pocitace), (2 * symbol_pocitace + '-'), (symbol_pocitace + '-' + symbol_pocitace),
