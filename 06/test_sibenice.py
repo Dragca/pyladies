@@ -2,11 +2,10 @@ import pytest
 
 import sibenice
 
-def test_je_ve_slove():
-    assert sibenice.je_ve_slove('pes', 'p') == 0
-    assert sibenice.je_ve_slove('pes', 'h') == -1
-    assert sibenice.je_ve_slove('pes', 's') == 2
-    # assert sibenice.je_ve_slove('pes', '') == -1
+def test_najdi_ve_slove():
+    assert sibenice.najdi_ve_slove('pes', 'p') == 0
+    assert sibenice.najdi_ve_slove('pes', 'h') == -1
+    assert sibenice.najdi_ve_slove('pes', 's') == 2
 
 
 def test_zapis_pismeno():

@@ -6,17 +6,22 @@ from sibenice_obrazky import seznam_obrazku
 seznam_slov = ['lev', 'pes', 'kanec', 'prase', 'lemur']
 JESTLI_VYHRAL = {
     'vyhral': 'Vyhral jsi! Gratuluji!',
-    'prohral': 'Prohral jsi. Konec hry.',}
+    'prohral': 'Prohral jsi. Konec hry.'}
 
 
 def zadej_pismeno():
     """
     funkce vraci vstup uzivatele - znak.
     """
-    return input('Zadej pismeno: ').strip().lower()
+    vstup = input('Zadej pismeno: ').lower()
+    
+    if len(vstup) == 0 or len(vstup) > 1:
+        raise ValueError
+    
+    return vstup
 
 
-def je_ve_slove(slovo, znak):
+def najdi_ve_slove(slovo, znak):
     """
     Funkce ma parametry slovo a znak.
     Vraci -1 pokud znak neni ve slove, jinak vraci pozici znaku.
@@ -54,14 +59,18 @@ def hra_sibenice():
     print(pole_slova) 
     neuspesnych_pokusu = 0
     while True:
-        znak = zadej_pismeno()
-        nasel_na_pozici = je_ve_slove(slovo, znak)
+        try:
+            znak = zadej_pismeno()
+        except ValueError:
+            print('Musis zadat jedno pismeno.')
+            continue
+        nasel_na_pozici = najdi_ve_slove(slovo, znak)
         if nasel_na_pozici != -1:
             pole_slova = zapis_pismeno(pole_slova, nasel_na_pozici, znak)
         else:
             neuspesnych_pokusu += 1
     
-        print("""neuspesnych_pokusu: {}\n{}\n{}""".format(
+        print("""neuspesnych pokusu: {}\n{}\n{}""".format(
             neuspesnych_pokusu, seznam_obrazku[neuspesnych_pokusu], pole_slova))
         
         stav = vyhodnot(pole_slova, neuspesnych_pokusu)
