@@ -77,7 +77,9 @@ class Shielded(Robot):
 
 
 class Zombie(Robot):
-    _is_alive = True
+    def __init__(self, lifes):
+        self._is_alive = True
+        super().__init__(lifes)
 
     def is_alive(self):
         return self._is_alive
